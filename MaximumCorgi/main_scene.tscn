@@ -1,0 +1,129 @@
+[gd_scene load_steps=9 format=3 uid="uid://ki2l7d500nx5"]
+
+[ext_resource type="Script" path="res://HUD.cs" id="1_67o71"]
+[ext_resource type="FontFile" uid="uid://c8hxyg7772mq0" path="res://Xolonium-Regular.ttf" id="1_akd4w"]
+[ext_resource type="Script" path="res://main_scene.cs" id="1_c1tph"]
+[ext_resource type="PackedScene" uid="uid://b2kuhw3xip2rj" path="res://player.tscn" id="2_xkffl"]
+[ext_resource type="PackedScene" uid="uid://qd5lefypbex1" path="res://mob.tscn" id="5_h26ga"]
+[ext_resource type="Texture2D" uid="uid://6too70vebs66" path="res://BG.png" id="6_b3w66"]
+[ext_resource type="PackedScene" uid="uid://bkturftvw8b08" path="res://treat.tscn" id="6_xjo3e"]
+
+[sub_resource type="Curve2D" id="Curve2D_yqyqs"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1191, 12, 0, 0, 0, 0, 1186, 784, 0, 0, 0, 0, 11, 786)
+}
+point_count = 3
+
+[node name="MainScene" type="Node"]
+script = ExtResource("1_c1tph")
+MobScene = ExtResource("5_h26ga")
+TreatScene = ExtResource("6_xjo3e")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = -1
+script = ExtResource("1_67o71")
+
+[node name="Label" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -258.5
+offset_right = 258.5
+offset_bottom = 81.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.423529, 0.490196, 0.815686, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_akd4w")
+theme_override_font_sizes/font_size = 64
+text = "Maximum Corgi"
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -671.0
+offset_top = -153.0
+offset_right = 671.0
+offset_bottom = 153.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_akd4w")
+theme_override_font_sizes/font_size = 64
+text = "Så er det Maximum Corgi tid.
+Spis alle godbidderne og undgå de onde monstre. "
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -88.5
+offset_top = -86.0
+offset_right = 88.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_akd4w")
+theme_override_font_sizes/font_size = 64
+text = "Start"
+
+[node name="MessageTimer" type="Timer" parent="HUD"]
+wait_time = 2.0
+one_shot = true
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -61.0
+offset_right = 161.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_akd4w")
+theme_override_font_sizes/font_size = 48
+text = "Score:"
+
+[node name="Sprite2D" type="Sprite2D" parent="HUD"]
+z_index = -1
+y_sort_enabled = true
+texture = ExtResource("6_b3w66")
+centered = false
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="TreatTimer" type="Timer" parent="."]
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_yqyqs")
+metadata/_edit_group_ = true
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(1191, 12)
+rotation = 1.57727
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(600, 300)
+
+[node name="Player" parent="." instance=ExtResource("2_xkffl")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(196, 89)
+
+[connection signal="StartGame" from="HUD" to="." method="NewGame"]
+[connection signal="pressed" from="HUD/StartButton" to="HUD" method="_on_start_button_pressed"]
+[connection signal="timeout" from="HUD/MessageTimer" to="HUD" method="_on_message_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="TreatTimer" to="." method="_on_treat_timer_timeout"]
+[connection signal="Hit" from="Player" to="." method="GameOver"]
+[connection signal="Treat" from="Player" to="." method="EatTreat"]

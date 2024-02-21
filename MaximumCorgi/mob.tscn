@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://qd5lefypbex1"]
+
+[ext_resource type="Texture2D" uid="uid://cdu80cfrw3qfh" path="res://AngryEnemy1.png" id="1_5jsq6"]
+[ext_resource type="Texture2D" uid="uid://bdsrsx28873b3" path="res://HappyEnemy1.png" id="1_hbjpg"]
+[ext_resource type="Script" path="res://mob.cs" id="1_y0vda"]
+[ext_resource type="Texture2D" uid="uid://bu3wt7kc4o2x6" path="res://HappyEnemy2.png" id="2_ujwup"]
+[ext_resource type="Texture2D" uid="uid://dkr5nhuyq2p24" path="res://AngryEnemy2.png" id="2_yfepk"]
+[ext_resource type="Texture2D" uid="uid://c0vfsqvilwel1" path="res://HappyEnemy3.png" id="3_31o6n"]
+[ext_resource type="Texture2D" uid="uid://da02pon1lap2" path="res://AngryEnemy3.png" id="3_e6n6b"]
+[ext_resource type="Texture2D" uid="uid://b2b07d154obc0" path="res://AngryEnemy4.png" id="4_dmwnu"]
+[ext_resource type="Script" path="res://angryzone.cs" id="9_rk5au"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1u1qg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5jsq6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_yfepk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_e6n6b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dmwnu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_e6n6b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_yfepk")
+}],
+"loop": true,
+"name": &"Angry",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hbjpg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ujwup")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_31o6n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ujwup")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ydn55"]
+radius = 313.057
+
+[node name="Mob" type="RigidBody2D" groups=["Mobs"]]
+collision_mask = 0
+mass = 0.01
+gravity_scale = 0.0
+script = ExtResource("1_y0vda")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_1u1qg")
+animation = &"Idle"
+speed_scale = 0.8
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="DeadZone" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(30, 0, 21, -15, 11, -23, 12, -29, 12, -34, 3, -33, -6, -27, -10, -22, -16, -20, -22, -13, -22, -8, -27, -6, -33, 0, -33, 11, -37, 14, -37, 29, -32, 34, 32, 34, 37, 29, 37, 17, 30, 11)
+
+[node name="AngryZone" type="RigidBody2D" parent="."]
+collision_mask = 0
+mass = 0.01
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("9_rk5au")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AngryZone"]
+shape = SubResource("CircleShape2D_ydn55")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

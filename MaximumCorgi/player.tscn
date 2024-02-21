@@ -1,0 +1,119 @@
+[gd_scene load_steps=24 format=3 uid="uid://b2kuhw3xip2rj"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_f8q5x"]
+[ext_resource type="Texture2D" uid="uid://ctsha1s6nmdyp" path="res://Player_Idle1.png" id="1_n6iyx"]
+[ext_resource type="Texture2D" uid="uid://dv3fgxp0o10mq" path="res://Player_Idle2.png" id="2_spokp"]
+[ext_resource type="Texture2D" uid="uid://b52s0gjy4wg6l" path="res://Player_Idle3.png" id="3_wjacd"]
+[ext_resource type="Texture2D" uid="uid://c8ci580ayl7o6" path="res://Player_Idle4.png" id="4_1gdei"]
+[ext_resource type="Texture2D" uid="uid://ddnbpujla54kf" path="res://Player_Idle5.png" id="5_pmrmf"]
+[ext_resource type="Texture2D" uid="uid://cmgvmyo8baruq" path="res://PlayerRun1.png" id="7_rsyim"]
+[ext_resource type="Texture2D" uid="uid://srnn34rhsqcp" path="res://PlayerIntroIdle1.png" id="7_td4fu"]
+[ext_resource type="Texture2D" uid="uid://dxwwpkpoacslx" path="res://PlayerRun2.png" id="8_3gbcj"]
+[ext_resource type="Texture2D" uid="uid://rl0vbva25umv" path="res://PlayerIntroIdle2.png" id="8_jo2c4"]
+[ext_resource type="Texture2D" uid="uid://bpsvkn3v84v4o" path="res://PlayerRun3.png" id="9_1njl8"]
+[ext_resource type="Texture2D" uid="uid://dnhg8s64ccvjx" path="res://PlayerIntroIdle3.png" id="9_jshyu"]
+[ext_resource type="Texture2D" uid="uid://cejn4skwxd4v1" path="res://PlayerIntroIdle4.png" id="10_84x5e"]
+[ext_resource type="Texture2D" uid="uid://b3iojjsfhustv" path="res://PlayerRun4.png" id="10_p002s"]
+[ext_resource type="Texture2D" uid="uid://cdghx611ea7hd" path="res://PlayerIntroIdle5.png" id="11_eo5jc"]
+[ext_resource type="Texture2D" uid="uid://ddj0hhdnjd412" path="res://PlayerRun5.png" id="11_fq7e6"]
+[ext_resource type="Texture2D" uid="uid://dth8pa6wqjkcg" path="res://PlayerIntroIdle6.png" id="12_asqje"]
+[ext_resource type="Texture2D" uid="uid://o2n8xl2lfkwf" path="res://PlayerRun6.png" id="12_x874m"]
+[ext_resource type="Texture2D" uid="uid://wqpwo0wv77d5" path="res://PlayerIntroIdle7.png" id="13_1w8h1"]
+[ext_resource type="Texture2D" uid="uid://5gipln17q2at" path="res://PlayerRun7.png" id="13_rsyqy"]
+[ext_resource type="Texture2D" uid="uid://bdq4ndpt3rtwo" path="res://PlayerIntroIdle8.png" id="14_i051w"]
+[ext_resource type="Texture2D" uid="uid://bkfgicalxw04s" path="res://PlayerRun8.png" id="14_yjarc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pc8t4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_n6iyx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_spokp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_wjacd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1gdei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pmrmf")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_td4fu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jo2c4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_jshyu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_84x5e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_eo5jc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_asqje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_1w8h1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_i051w")
+}],
+"loop": true,
+"name": &"IntroIdle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_rsyim")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3gbcj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_1njl8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_p002s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_fq7e6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_x874m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_rsyqy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_yjarc")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 7.0
+}]
+
+[node name="Player" type="Area2D"]
+collision_layer = 3
+script = ExtResource("1_f8q5x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pc8t4")
+animation = &"IntroIdle"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-63, -48, -53, -48, -42, -43, -32, -33, -27, -24, -26, -10, 3, -16, 7, -31, 19, -47, 25, -49, 49, -48, 56, -37, 60, -21, 64, -4, 65, 64, -65, 64, -65, 7, -56, -9, -52, -23, -64, -37)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

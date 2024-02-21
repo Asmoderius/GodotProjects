@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 
-public partial class player : Area2D
+public partial class Player : Area2D
 {
 	[Signal]
 	public delegate void HitEventHandler();
@@ -21,35 +21,14 @@ public partial class player : Area2D
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
-		//Hide();
 		Start(new Vector2(ScreenSize.X/2, ScreenSize.Y/2));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-			var velocity = Vector2.Zero; // The player's movement vector.
 
-			if (Input.IsActionPressed("move_right"))
-			{
-				velocity.X += 1;
-			}
-
-			if (Input.IsActionPressed("move_left"))
-			{
-				velocity.X -= 1;
-			}
-
-			if (Input.IsActionPressed("move_down"))
-			{
-				velocity.Y += 1;
-			}
-
-			if (Input.IsActionPressed("move_up"))
-			{
-				velocity.Y -= 1;
-			}
-
+			Vector2 velocity = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 			var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 			if (velocity.Length() > 0)
